@@ -1,11 +1,13 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { FlashcardWithAnswer } from "@/components/FlashcardWithAnswer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileText, RefreshCw, Upload, Shuffle } from "lucide-react";
+import { FileText, Shuffle } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 interface VocabularyItem {
   word: string;
@@ -13,6 +15,7 @@ interface VocabularyItem {
 }
 
 export default function Home() {
+  const { user, isAuthenticated } = useAuth();
   const [vocabList, setVocabList] = useState<VocabularyItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -155,7 +158,7 @@ export default function Home() {
               <Card className="border-dashed border-2 border-muted-foreground/20 bg-card/50 backdrop-blur-sm shadow-sm hover:border-accent/50 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-12 text-center space-y-4">
                   <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-2">
-                    <Upload className="w-8 h-8 text-secondary-foreground" />
+                    <FileText className="w-8 h-8 text-secondary-foreground" />
                   </div>
                   <h3 className="text-xl font-serif font-semibold">
                     Upload your .txt file

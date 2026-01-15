@@ -1,7 +1,16 @@
-import * as pdfjsLib from 'pdfjs-dist';
+// Use dynamic import to avoid loading pdfjs-dist in test environment
+let pdfjsLib: any = null;
 
-// Set up the worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+async function getPdfjsLib() {
+  if (!pdfjsLib) {
+    pdfjsLib = await import('pdfjs-dist');
+    // Set up the worker for Node.js environment
+    if (typeof window === 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+    }
+  }
+  return pdfjsLib;
+}
 
 export interface ParsedVocabulary {
   word: string;
@@ -15,6 +24,7 @@ export interface ParsedVocabulary {
  */
 export async function parsePdfVocabulary(pdfBuffer: Buffer): Promise<ParsedVocabulary[]> {
   try {
+    const pdfjsLib = await getPdfjsLib();
     const pdf = await pdfjsLib.getDocument({ data: pdfBuffer }).promise;
     let fullText = '';
 

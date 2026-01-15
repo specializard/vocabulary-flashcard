@@ -61,38 +61,43 @@ export function FlashcardWithAnswer({
     }
   };
 
+  // 단어의 첫 글자만 대문자로 변환
+  const formatWord = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  };
+
   return (
-    <div className={cn("w-full max-w-md mx-auto", className)}>
-      {/* Word Card */}
+    <div className={cn("w-full max-w-md mx-auto px-4", className)}>
+      {/* Word Card - 세로 폭 줄임 */}
       <motion.div
-        className="relative w-full aspect-[3/2] mb-8"
+        className="relative w-full mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="w-full h-full bg-card rounded-xl shadow-lg border border-border/50 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        <div className="w-full bg-card rounded-2xl shadow-xl border border-border/50 flex flex-col items-center justify-center p-8 md:p-10 relative overflow-hidden min-h-[180px] md:min-h-[200px]">
           {/* Paper Texture Overlay */}
           <div className="absolute inset-0 opacity-50 pointer-events-none bg-[url('/images/card-texture.jpg')] bg-cover mix-blend-multiply"></div>
 
-          <span className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-4 z-10">
+          <span className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-3 z-10">
             영어 단어
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground text-center z-10 break-words max-w-full">
-            {word}
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground text-center z-10 break-words max-w-full leading-tight">
+            {formatWord(word)}
           </h2>
         </div>
       </motion.div>
 
-      {/* Answer Input Section */}
+      {/* Answer Input Section - 버튼 크기 증가 */}
       <motion.div
         className="space-y-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="space-y-2">
-          <label className="text-sm font-sans font-medium text-foreground/70">
+        <div className="space-y-3">
+          <label className="text-sm md:text-base font-sans font-medium text-foreground/70">
             이 단어의 뜻은?
           </label>
           <Input
@@ -102,7 +107,7 @@ export function FlashcardWithAnswer({
             onChange={(e) => setUserAnswer(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={showResult}
-            className="font-sans text-base bg-card border-border/50 text-foreground placeholder:text-muted-foreground/50"
+            className="font-sans text-base md:text-lg h-12 md:h-14 bg-card border-border/50 text-foreground placeholder:text-muted-foreground/50 px-4"
           />
         </div>
 
@@ -114,26 +119,26 @@ export function FlashcardWithAnswer({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               className={cn(
-                "p-4 rounded-lg flex items-center gap-3 font-sans font-medium",
+                "p-4 md:p-5 rounded-xl flex items-center gap-3 font-sans font-medium",
                 isCorrect
-                  ? "bg-green-100 text-green-800 border border-green-300"
-                  : "bg-red-100 text-red-800 border border-red-300"
+                  ? "bg-green-100 text-green-800 border-2 border-green-300"
+                  : "bg-red-100 text-red-800 border-2 border-red-300"
               )}
             >
               {isCorrect ? (
                 <>
-                  <Check className="w-5 h-5 flex-shrink-0" />
+                  <Check className="w-6 h-6 flex-shrink-0" />
                   <div>
-                    <p className="font-bold">정답입니다!</p>
-                    <p className="text-sm opacity-90">{meaning}</p>
+                    <p className="font-bold text-base md:text-lg">정답입니다!</p>
+                    <p className="text-sm md:text-base opacity-90">{meaning}</p>
                   </div>
                 </>
               ) : (
                 <>
-                  <X className="w-5 h-5 flex-shrink-0" />
+                  <X className="w-6 h-6 flex-shrink-0" />
                   <div>
-                    <p className="font-bold">틀렸습니다</p>
-                    <p className="text-sm opacity-90">정답: {meaning}</p>
+                    <p className="font-bold text-base md:text-lg">틀렸습니다</p>
+                    <p className="text-sm md:text-base opacity-90">정답: {meaning}</p>
                   </div>
                 </>
               )}
@@ -141,13 +146,13 @@ export function FlashcardWithAnswer({
           )}
         </AnimatePresence>
 
-        {/* Check Button */}
+        {/* Check Button - 크기 증가 */}
         <Button
           onClick={handleCheck}
           disabled={showResult || userAnswer.trim() === ""}
-          className="w-full font-sans font-bold text-lg shadow-md hover:shadow-lg transition-all bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-14 md:h-16 font-sans font-bold text-lg md:text-xl shadow-lg hover:shadow-xl transition-all bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
         >
-          <Check className="mr-2 w-5 h-5" />
+          <Check className="mr-2 w-6 h-6" />
           정답 확인
         </Button>
       </motion.div>

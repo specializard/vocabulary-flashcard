@@ -127,9 +127,16 @@
     background-size: cover;
     background-attachment: fixed;
     background-blend-mode: multiply;
+    /* 모바일 터치 최적화 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-bold;
+  }
+  /* 모바일에서 입력 필드 확대 방지 */
+  input, textarea, select {
+    font-size: 16px;
   }
 }
 
@@ -172,5 +179,19 @@
   
   .rotate-y-180 {
     transform: rotateY(180deg);
+  }
+  
+  /* 모바일 최적화 */
+  @media (max-width: 640px) {
+    .container {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+  
+  /* 터치 친화적 버튼 크기 */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
   }
 }

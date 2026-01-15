@@ -15,6 +15,7 @@ import {
   getUserLearningStats,
   getUserLearningRecords,
 } from "./db";
+import { parsePdfVocabulary } from "./pdfParser";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -106,6 +107,21 @@ export const appRouter = router({
       .input(z.object({ listId: z.number() }))
       .query(async ({ ctx, input }) => {
         return await getUserLearningRecords(ctx.user.id, input.listId);
+      }),
+    uploadPdf: protectedProcedure
+      .input(
+        z.object({
+          listId: z.number(),
+          pdfBase64: z.string(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const pdfBuffer = Buffer.from(input.pdfBase64, 'base64');
+        const items = await parsePdfVocabulary(pdfBuffer);
+        if (items.length === 0) {
+          throw new Error("No vocabulary items found in PDF");
+        }
+        return await addVocabularyItems(input.listId, items);
       }),
   }),
 });

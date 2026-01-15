@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileText, Shuffle } from "lucide-react";
+import { FileText, Shuffle, Upload } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
@@ -28,12 +28,44 @@ export default function Home() {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.type === 'application/pdf') {
+      handlePdfUpload(file);
+    } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+      handleTextUpload(file);
+    } else {
+      toast.error('Please upload a .txt or .pdf file');
+    }
+  };
+
+  const handleTextUpload = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
       parseFileContent(text);
     };
     reader.readAsText(file);
+  };
+
+  const handlePdfUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = (e.target?.result as string).split(',')[1];
+      if (base64) {
+        parsePdfContent(base64);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const parsePdfContent = async (base64: string) => {
+    try {
+      // Since we don't have a list ID yet, we'll just parse the PDF locally
+      // In a full implementation, this would be sent to the server
+      toast.info('PDF parsing will be available after database integration');
+    } catch (error) {
+      console.error('Error processing PDF:', error);
+      toast.error('Failed to process PDF.');
+    }
   };
 
   const parseFileContent = (text: string) => {
@@ -161,9 +193,10 @@ export default function Home() {
                     <FileText className="w-8 h-8 text-secondary-foreground" />
                   </div>
                   <h3 className="text-xl font-serif font-semibold">
-                    Upload your .txt file
+                    Upload your vocabulary file
                   </h3>
                   <p className="text-sm text-muted-foreground max-w-xs">
+                    Supported formats: .txt or .pdf <br />
                     Format: "Word [separator] Meaning" per line. <br />
                     Separators: Tab, Colon (:), Comma (,)
                   </p>
@@ -171,7 +204,7 @@ export default function Home() {
                     <Input
                       ref={fileInputRef}
                       type="file"
-                      accept=".txt"
+                      accept=".txt,.pdf"
                       onChange={handleFileUpload}
                       className="hidden"
                       id="file-upload"

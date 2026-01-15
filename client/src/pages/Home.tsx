@@ -33,7 +33,7 @@ export default function Home() {
     } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
       handleTextUpload(file);
     } else {
-      toast.error('Please upload a .txt or .pdf file');
+      toast.error('.txt 또는 .pdf 파일을 업로드해주세요');
     }
   };
 
@@ -61,10 +61,10 @@ export default function Home() {
     try {
       // Since we don't have a list ID yet, we'll just parse the PDF locally
       // In a full implementation, this would be sent to the server
-      toast.info('PDF parsing will be available after database integration');
+        toast.info('PDF 파싱은 데이터베이스 통합 후 사용 가능합니다');
     } catch (error) {
-      console.error('Error processing PDF:', error);
-      toast.error('Failed to process PDF.');
+      console.error('PDF 처리 오류:', error);
+      toast.error('PDF를 처리하는 중 오류가 발생했습니다.');
     }
   };
 
@@ -103,7 +103,7 @@ export default function Home() {
       });
 
       if (parsedList.length === 0) {
-        toast.error("No valid vocabulary found in file.");
+        toast.error("파일에서 유효한 단어를 찾을 수 없습니다.");
         return;
       }
 
@@ -112,10 +112,10 @@ export default function Home() {
       setCurrentIndex(0);
       setIsLoaded(true);
       setSlideDirection(null);
-      toast.success(`Loaded ${parsedList.length} words!`);
+      toast.success(`${parsedList.length}개의 단어가 로드되었습니다!`);
     } catch (error) {
-      console.error("Error parsing file:", error);
-      toast.error("Failed to parse file.");
+      console.error("파일 파싱 오류:", error);
+      toast.error('파일을 처리하는 중 오류가 발생했습니다.');
     }
   };
 
@@ -126,7 +126,7 @@ export default function Home() {
         setCurrentIndex(currentIndex + 1);
         setSlideDirection(null);
       } else {
-        toast.info("All words completed! 🎉");
+        toast.info("모든 단어 학습이 완료되었습니다! 🎉");
         setIsLoaded(false);
         setVocabList([]);
       }
@@ -140,7 +140,7 @@ export default function Home() {
         setCurrentIndex(currentIndex + 1);
         setSlideDirection(null);
       } else {
-        toast.info("All words completed! 🎉");
+        toast.info("모든 단어 학습이 완료되었습니다! 🎉");
         setIsLoaded(false);
         setVocabList([]);
       }
@@ -152,7 +152,7 @@ export default function Home() {
     setVocabList(shuffled);
     setCurrentIndex(0);
     setSlideDirection(null);
-    toast.success("Shuffled cards!");
+    toast.success('카드가 섞였습니다!');
   };
 
   const handleReset = () => {
@@ -171,10 +171,10 @@ export default function Home() {
         {/* Header */}
         <div className="text-center space-y-2">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary tracking-tight">
-            Vocabulary Flashcards
+            영어 단어 암기 플래시카드
           </h1>
           <p className="text-muted-foreground font-sans text-lg">
-            Upload your list, master your words.
+            파일을 업로드하고 단어를 암기하세요.
           </p>
         </div>
 
@@ -193,12 +193,12 @@ export default function Home() {
                     <FileText className="w-8 h-8 text-secondary-foreground" />
                   </div>
                   <h3 className="text-xl font-serif font-semibold">
-                    Upload your vocabulary file
+                    단어장 파일 업로드
                   </h3>
                   <p className="text-sm text-muted-foreground max-w-xs">
-                    Supported formats: .txt or .pdf <br />
-                    Format: "Word [separator] Meaning" per line. <br />
-                    Separators: Tab, Colon (:), Comma (,)
+                    지원 형식: .txt 또는 .pdf <br />
+                    형식: "단어 [구분자] 뜻" (한 줄에 하나) <br />
+                    구분자: 탭, 콜론 (:), 쉼표 (,)
                   </p>
                   <div className="mt-4">
                     <Input
@@ -215,7 +215,7 @@ export default function Home() {
                       className="font-sans font-bold shadow-md hover:shadow-lg transition-all"
                     >
                       <label htmlFor="file-upload" className="cursor-pointer">
-                        Select File
+                        파일 선택
                       </label>
                     </Button>
                   </div>
@@ -232,7 +232,7 @@ export default function Home() {
             >
               {/* Progress Indicator */}
               <div className="font-sans text-sm font-medium text-muted-foreground tracking-wider">
-                CARD {currentIndex + 1} OF {vocabList.length}
+                카드 {currentIndex + 1} / {vocabList.length}
               </div>
 
               {/* Flashcard Area with Slide Animation */}
@@ -272,7 +272,7 @@ export default function Home() {
                   variant="outline"
                   size="icon"
                   onClick={handleReset}
-                  title="Upload new file"
+                  title="새 파일 업로드"
                   className="rounded-full w-12 h-12 border-muted-foreground/30 hover:bg-secondary hover:text-secondary-foreground"
                 >
                   <FileText className="w-5 h-5" />
@@ -282,7 +282,7 @@ export default function Home() {
                   variant="outline"
                   size="icon"
                   onClick={handleShuffle}
-                  title="Shuffle cards"
+                  title="카드 섞기"
                   className="rounded-full w-12 h-12 border-muted-foreground/30 hover:bg-secondary hover:text-secondary-foreground"
                 >
                   <Shuffle className="w-5 h-5" />
@@ -294,7 +294,7 @@ export default function Home() {
       </main>
 
       <footer className="absolute bottom-4 text-xs text-muted-foreground/50 font-sans">
-        Designed by Manus AI
+        Manus AI가 만들었습니다
       </footer>
     </div>
   );

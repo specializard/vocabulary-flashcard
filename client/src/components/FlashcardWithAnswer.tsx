@@ -76,7 +76,7 @@ export function FlashcardWithAnswer({
           <div className="absolute inset-0 opacity-50 pointer-events-none bg-[url('/images/card-texture.jpg')] bg-cover mix-blend-multiply"></div>
 
           <span className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-4 z-10">
-            English Word
+            영어 단어
           </span>
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground text-center z-10 break-words max-w-full">
             {word}
@@ -93,11 +93,11 @@ export function FlashcardWithAnswer({
       >
         <div className="space-y-2">
           <label className="text-sm font-sans font-medium text-foreground/70">
-            What does this word mean?
+            이 단어의 뜻은?
           </label>
           <Input
             type="text"
-            placeholder="Enter the meaning..."
+            placeholder="뜻을 입력하세요..."
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -124,7 +124,7 @@ export function FlashcardWithAnswer({
                 <>
                   <Check className="w-5 h-5 flex-shrink-0" />
                   <div>
-                    <p className="font-bold">Correct!</p>
+                    <p className="font-bold">정답입니다!</p>
                     <p className="text-sm opacity-90">{meaning}</p>
                   </div>
                 </>
@@ -132,8 +132,8 @@ export function FlashcardWithAnswer({
                 <>
                   <X className="w-5 h-5 flex-shrink-0" />
                   <div>
-                    <p className="font-bold">Not quite right</p>
-                    <p className="text-sm opacity-90">Correct: {meaning}</p>
+                    <p className="font-bold">틀렸습니다</p>
+                    <p className="text-sm opacity-90">정답: {meaning}</p>
                   </div>
                 </>
               )}
@@ -148,7 +148,7 @@ export function FlashcardWithAnswer({
           className="w-full font-sans font-bold text-lg shadow-md hover:shadow-lg transition-all bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Check className="mr-2 w-5 h-5" />
-          Check Answer
+          정답 확인
         </Button>
       </motion.div>
     </div>
